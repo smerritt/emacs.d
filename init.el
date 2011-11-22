@@ -41,6 +41,8 @@
 
 (global-set-key [(f6)] 'next-error)
 (global-set-key [(shift f6)] 'previous-error)
+(global-set-key [(control \;) ?f ?f] 'ffip)
+
 ;; on kinesis freestyle, 'Delete' sends kp-delete
 (global-set-key [kp-delete] 'delete-char)
 (global-set-key [(control kp-delete)] 'kill-word)
