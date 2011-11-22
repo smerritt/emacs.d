@@ -2,6 +2,8 @@
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("tromey" . "http://tromey.com/elpa/") t)
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -13,6 +15,10 @@
     starter-kit-ruby
     starter-kit-lisp
     starter-kit-bindings
+    slime
+    slime-repl
+    haml-mode
+    sass-mode
     color-theme
     color-theme-twilight)
   "A list of packages to ensure are installed at launch.")
