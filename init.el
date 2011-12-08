@@ -9,7 +9,6 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; Add in your own as you wish:
 (defvar my-packages
   '(starter-kit
     starter-kit-ruby
