@@ -60,3 +60,7 @@
 
 ;; just nice to have everywhere; my screen is only so wide
 (add-hook 'prog-mode-hook (lambda () (setq tab-width 2)))
+
+;; there ought to be a python starter kit
+(add-hook 'python-mode-hook
+          (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
