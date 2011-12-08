@@ -42,6 +42,17 @@
 (global-set-key [(shift f6)] 'previous-error)
 (global-set-key [(control \;) ?f ?f] 'ffip)
 
+
+;; C-' to start/end macro, C-M-' to run it
+(defun start-or-end-kmacro ()
+  (interactive)
+  (if defining-kbd-macro
+      (kmacro-end-macro nil)
+    (kmacro-start-macro nil)))
+
+(global-set-key [(control \')] 'start-or-end-kmacro)
+(global-set-key [(control meta \')] 'kmacro-end-and-call-macro)
+
 ;; on kinesis freestyle, 'Delete' sends kp-delete
 (global-set-key [kp-delete] 'delete-char)
 (global-set-key [(control kp-delete)] 'kill-word)
