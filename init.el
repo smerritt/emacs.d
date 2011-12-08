@@ -41,7 +41,8 @@
 (global-set-key [(f6)] 'next-error)
 (global-set-key [(shift f6)] 'previous-error)
 (global-set-key [(control \;) ?f ?f] 'ffip)
-
+(global-set-key [(control tab)] 'hippie-expand)
+(global-set-key [(shift tab)] 'hippie-expand)
 
 ;; C-' to start/end macro, C-M-' to run it
 (defun start-or-end-kmacro ()
