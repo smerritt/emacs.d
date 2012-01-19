@@ -74,6 +74,51 @@
 ;; just nice to have everywhere; my screen is only so wide
 (add-hook 'prog-mode-hook (lambda () (setq tab-width 2)))
 
+(defun random-ip ()
+  (concat "10."
+          (mapconcat
+           (lambda (_) (format "%d" (random 256)))
+           (make-list 3 'dontcare)
+           ".")))
+
+(defun insert-random-ip ()
+  (interactive)
+  (insert (random-ip)))
+
+(defun random-mac ()
+  (mapconcat
+   (lambda (_) (format "%02X" (random 256)))
+   (make-list 6 'dontcare)
+   ":"))
+
+(defun insert-random-mac ()
+  (interactive)
+  (insert (random-mac)))
+
+(global-set-key [(control \;) ?r ?i] 'insert-random-ip)
+(global-set-key [(control \;) ?r ?m] 'insert-random-mac)
+
+
 ;; there ought to be a python starter kit
+(defun python-insert-pdb-breakpoint ()
+  (interactive)
+  (indent-for-tab-command)
+  (insert "import pdb; pdb.set_trace()  ### XXXXXXXXXXXXXXXXXXXXXXXX\n")
+  (indent-for-tab-command))
+
 (add-hook 'python-mode-hook
-          (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+          (lambda ()
+            (local-set-key (kbd "RET") 'newline-and-indent)
+            (local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)))
+
+;; Take all the windows in the current frame and shift them over one.
+;;
+;; With 2 windows, effectively switches their positions.
+;;
+;; With 1 window, this is a no-op.
+(defun rotate-windows ()
+  (interactive)
+  (let ((buffers (mapcar 'window-buffer (window-list))))
+    (mapcar* 'set-window-buffer
+             (window-list)
+             (append (cdr buffers) (list (car buffers))))))
