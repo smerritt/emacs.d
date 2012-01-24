@@ -122,3 +122,14 @@
     (mapcar* 'set-window-buffer
              (window-list)
              (append (cdr buffers) (list (car buffers))))))
+
+(global-set-key [(control \;) ?r ?w] 'rotate-windows)
+
+;; Kill region if active.
+(defun kill-region-or-line ()
+  (interactive)
+  (if (use-region-p)
+      (kill-region (region-beginning) (region-end))
+    (kill-line)))
+
+(global-set-key [(control k)] 'kill-region-or-line)
