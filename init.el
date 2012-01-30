@@ -126,7 +126,7 @@
 
 (global-set-key [(control \;) ?r ?w] 'rotate-windows)
 
-;; Kill region if active.
+;; Kill region if active (for Darrell)
 (defun kill-region-or-line ()
   (interactive)
   (if (use-region-p)
@@ -134,3 +134,12 @@
     (kill-line)))
 
 (global-set-key [(control k)] 'kill-region-or-line)
+
+;; Find everything, dammit (except stuff in .git)
+(require 'find-file-in-project)
+(add-to-list 'ffip-patterns "*.conf")
+(add-to-list 'ffip-patterns "*.conf-sample")
+(add-to-list 'ffip-patterns "*.css")
+(add-to-list 'ffip-patterns "*.gitignore")
+(add-to-list 'ffip-patterns "*.json")
+(add-to-list 'ffip-patterns "*.list")
