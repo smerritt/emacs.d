@@ -38,6 +38,7 @@
 (random t)                              ; reseed
 (server-start)
 (global-auto-revert-mode 1)
+(global-linum-mode 1)
 
 (global-set-key [(f6)] 'next-error)
 (global-set-key [(shift f6)] 'previous-error)
