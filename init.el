@@ -143,3 +143,8 @@
 (add-to-list 'ffip-patterns "*.gitignore")
 (add-to-list 'ffip-patterns "*.json")
 (add-to-list 'ffip-patterns "*.list")
+(setq ffip-limit 2048)
+
+;; Don't try to connect to something just because its name is under
+;; point. It just locks up Emacs for a while and pisses me off.
+(setq ido-use-filename-at-point nil)
