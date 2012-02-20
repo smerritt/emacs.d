@@ -31,6 +31,7 @@
 (dolist (theme-dir (directory-files package-user-dir t "color-theme-\[a-z\]"))
   (mapcar 'load-file (directory-files theme-dir t "\\.el$")))
 
+
 ;;;; Basic setup: colors, modifier keys, builtin behaviors, etc.
 (setq kill-whole-line t)
 (setq confirm-kill-emacs 'yes-or-no-p)
