@@ -157,6 +157,7 @@
 (add-to-list 'ffip-patterns "*.json")
 (add-to-list 'ffip-patterns "*.list")
 (add-to-list 'ffip-patterns "*.erb")
+(add-to-list 'ffip-patterns "*.tmpl")
 (setq ffip-limit 2048)
 
 ;; Don't try to connect to something just because its name is under
