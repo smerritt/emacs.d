@@ -9,3 +9,5 @@
              '("vman" "root" "/ssh:%h:"))
 
 (color-theme-twilight)
+
+(setq split-width-threshold 170)
