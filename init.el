@@ -102,6 +102,10 @@
 (global-set-key [(control \;) ?r ?m] 'insert-random-mac)
 
 
+(add-hook
+ 'html-mode-hook
+ (lambda ()
+   (set (make-local-variable 'sgml-basic-offset) 4)))
 ;; there ought to be a python starter kit
 (defun python-insert-pdb-breakpoint ()
   (interactive)
