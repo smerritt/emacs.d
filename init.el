@@ -113,10 +113,17 @@
   (insert "import pdb; pdb.set_trace()  ### XXXXXXXXXXXXXXXXXXXXXXXX\n")
   (indent-for-tab-command))
 
+(defun python-insert-dprint ()
+  (interactive)
+  (indent-for-tab-command)
+  (insert "from common.pp import dprint\n")
+  (indent-for-tab-command))
+
 (add-hook 'python-mode-hook
           (lambda ()
             (local-set-key (kbd "RET") 'newline-and-indent)
-            (local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)))
+            (local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)
+            (local-set-key [(control \;) ?d ?p] 'python-insert-dprint)))
 
 ;; Take all the windows in the current frame and shift them over one.
 ;;
