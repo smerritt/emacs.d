@@ -105,7 +105,7 @@
 (add-hook
  'html-mode-hook
  (lambda ()
-   (set (make-local-variable 'sgml-basic-offset) 4)))
+   (set (make-local-variable 'sgml-basic-offset) 2)))
 ;; there ought to be a python starter kit
 (defun python-insert-pdb-breakpoint ()
   (interactive)
@@ -121,6 +121,7 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
+            (setq fill-column 78)
             (local-set-key (kbd "RET") 'newline-and-indent)
             (local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)
             (local-set-key [(control \;) ?d ?p] 'python-insert-dprint)))
@@ -158,8 +159,12 @@
 (add-to-list 'ffip-patterns "*.list")
 (add-to-list 'ffip-patterns "*.erb")
 (add-to-list 'ffip-patterns "*.tmpl")
+(add-to-list 'ffip-patterns "*.rst")
+(add-to-list 'ffip-patterns "*.java")
 (setq ffip-limit 2048)
 
 ;; Don't try to connect to something just because its name is under
 ;; point. It just locks up Emacs for a while and pisses me off.
 (setq ido-use-filename-at-point nil)
+
+(setq initial-scratch-message nil)
