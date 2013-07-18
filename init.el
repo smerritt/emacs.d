@@ -98,8 +98,13 @@
   (interactive)
   (insert (random-mac)))
 
+(defun insert-random-number ()
+  (interactive)
+  (insert (number-to-string (random 9999999))))
+
 (global-set-key [(control \;) ?r ?i] 'insert-random-ip)
 (global-set-key [(control \;) ?r ?m] 'insert-random-mac)
+(global-set-key [(control \;) ?r ?n] 'insert-random-number)
 
 
 (add-hook
