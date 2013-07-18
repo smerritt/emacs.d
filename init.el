@@ -173,3 +173,5 @@
 (setq ido-use-filename-at-point nil)
 
 (setq initial-scratch-message nil)
+
+(setq lua-indent-level 2)  ;; default is 3; who uses 3 spaces?
