@@ -21,7 +21,8 @@
     clojure-mode
     markdown-mode
     color-theme
-    color-theme-twilight)
+    color-theme-twilight
+    unicode-fonts)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
@@ -41,6 +42,7 @@
 (server-start)
 (global-auto-revert-mode 1)
 (global-linum-mode 1)
+(unicode-fonts-setup)
 
 (global-set-key [(f6)] 'next-error)
 (global-set-key [(shift f6)] 'previous-error)
@@ -102,9 +104,24 @@
   (interactive)
   (insert (number-to-string (random 9999999))))
 
+(defun insert-random-hash ()
+  ;; 128 random bits; looks sort of MD5-ish
+  (interactive)
+  (let (_dummy)  ;; appease dotimes
+    (dotimes (_dummy2 16 _dummy)
+      (insert (format "%02x" (random 255))))))
+
+(defun insert-random-string ()
+  (interactive)
+  (insert (shell-command-to-string
+           (concat (getenv "HOME") "/bin/random-string -n"))))
+
+
 (global-set-key [(control \;) ?r ?i] 'insert-random-ip)
+(global-set-key [(control \;) ?r ?h] 'insert-random-hash)
 (global-set-key [(control \;) ?r ?m] 'insert-random-mac)
 (global-set-key [(control \;) ?r ?n] 'insert-random-number)
+(global-set-key [(control \;) ?r ?s] 'insert-random-string)
 
 
 (add-hook
@@ -175,3 +192,11 @@
 (setq initial-scratch-message nil)
 
 (setq lua-indent-level 2)  ;; default is 3; who uses 3 spaces?
+
+(require 'grep)
+(add-to-list 'grep-find-ignored-directories ".venv")
+
+
+;; not until it's stable
+;;(load "~/.emacs.d/floobits/floobits.el")
+
