@@ -144,6 +144,7 @@
 (add-hook 'python-mode-hook
           (lambda ()
             (setq fill-column 78)
+            (setq python-fill-docstring-style 'django)
             (local-set-key (kbd "RET") 'newline-and-indent)
             (local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)
             (local-set-key [(control \;) ?d ?p] 'python-insert-dprint)))
