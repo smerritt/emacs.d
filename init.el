@@ -104,6 +104,10 @@
   (interactive)
   (insert (number-to-string (random 9999999))))
 
+(defun insert-time ()
+  (interactive)
+  (insert (number-to-string (float-time))))
+
 (defun insert-random-hash ()
   ;; 128 random bits; looks sort of MD5-ish
   (interactive)
@@ -122,6 +126,7 @@
 (global-set-key [(control \;) ?r ?m] 'insert-random-mac)
 (global-set-key [(control \;) ?r ?n] 'insert-random-number)
 (global-set-key [(control \;) ?r ?s] 'insert-random-string)
+(global-set-key [(control \;) ?r ?t] 'insert-time)
 
 
 (add-hook
