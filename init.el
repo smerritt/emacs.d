@@ -20,8 +20,8 @@
     sass-mode
     clojure-mode
     markdown-mode
+    twilight-theme
     color-theme
-    color-theme-twilight
     unicode-fonts)
   "A list of packages to ensure are installed at launch.")
 
@@ -29,10 +29,7 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
-(require 'color-theme)
-(dolist (theme-dir (directory-files package-user-dir t "color-theme-\[a-z\]"))
-  (mapcar 'load-file (directory-files theme-dir t "\\.el$")))
-
+(require 'twilight-theme)
 
 ;;;; Basic setup: colors, modifier keys, builtin behaviors, etc.
 (setq kill-whole-line t)
