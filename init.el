@@ -143,12 +143,19 @@
   (insert "from common.pp import dprint\n")
   (indent-for-tab-command))
 
+(defun python-insert-q-q ()
+  (interactive)
+  (indent-for-tab-command)
+  (insert "import q; q.q()")
+  (backward-char))
+
 (add-hook 'python-mode-hook
           (lambda ()
-            (setq fill-column 78)
+            (setq fill-column 76)
             (setq python-fill-docstring-style 'django)
             (local-set-key (kbd "RET") 'newline-and-indent)
             (local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)
+            (local-set-key [(control \;) ?q ?q] 'python-insert-q-q)
             (local-set-key [(control \;) ?d ?p] 'python-insert-dprint)))
 
 ;; Take all the windows in the current frame and shift them over one.
