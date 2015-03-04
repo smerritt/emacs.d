@@ -205,6 +205,7 @@
 
 (require 'grep)
 (add-to-list 'grep-find-ignored-directories ".venv")
+(add-to-list 'grep-find-ignored-directories "migrations")
 
 
 ;; not until it's stable
