@@ -208,8 +208,12 @@
 (add-to-list 'grep-find-ignored-directories "migrations")
 
 
-;; not until it's stable
-;;(load "~/.emacs.d/floobits/floobits.el")
+;; the default C indentation is pretty horrible
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (setq fill-column 78)
+            (c-set-style "linux")
+            (setq c-basic-offset 4)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
