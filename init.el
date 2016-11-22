@@ -4,24 +4,21 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("tromey" . "http://tromey.com/elpa/") t)
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (package-initialize)
 
 (when (not package-archive-contents)
   (package-refresh-contents))
 
 (defvar my-packages
-  '(starter-kit
-    starter-kit-ruby
-    starter-kit-lisp
-    starter-kit-bindings
-    slime
-    slime-repl
-    haml-mode
-    sass-mode
+  '(go-mode
+		paredit
     clojure-mode
     markdown-mode
     twilight-theme
     color-theme
+		smex
     unicode-fonts)
   "A list of packages to ensure are installed at launch.")
 
@@ -32,20 +29,36 @@
 (require 'twilight-theme)
 
 ;;;; Basic setup: colors, modifier keys, builtin behaviors, etc.
-(setq kill-whole-line t)
-(setq confirm-kill-emacs 'yes-or-no-p)
+;; Emacs for OSX has this toolbar with stuff like save, open,
+;; copy, paste... I'd rather have 2 more lines of text.
+(tool-bar-mode 0)
+
+(setq
+ kill-whole-line t
+ inhibit-startup-message t
+ sentence-end-double-space nil
+ initial-scratch-message nil
+ confirm-kill-emacs 'y-or-n-p)
+
 (delete-selection-mode)
 (random t)                              ; reseed
 (server-start)
 (global-auto-revert-mode 1)
 (global-linum-mode 1)
 (unicode-fonts-setup)
+(windmove-default-keybindings)
+
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 (global-set-key [(f6)] 'next-error)
 (global-set-key [(shift f6)] 'previous-error)
 (global-set-key [(control \;) ?f ?f] 'ffip)
 (global-set-key [(control tab)] 'hippie-expand)
 (global-set-key [(shift tab)] 'hippie-expand)
+(global-set-key [(control c) ?r] 'revert-buffer)
 
 ;; C-' to start/end macro, C-M-' to run it
 (defun start-or-end-kmacro ()
@@ -69,12 +82,21 @@
 ;; or exit emacs (!) when running in Emacs.app
 (when window-system (global-unset-key "\C-z"))
 
-;; while I <square box> Unicode as much as the next guy,
-;; I want my lambdas left alone.
-(remove-hook 'prog-mode-hook 'esk-pretty-lambdas)
+;; just nice to have when writing code
+(defun my-prog-mode-hook ()
+	(column-number-mode)
+	(setq tab-width 4)
+	(show-paren-mode 1))
 
-;; just nice to have everywhere; my screen is only so wide
-(add-hook 'prog-mode-hook (lambda () (setq tab-width 2)))
+(add-hook 'prog-mode-hook 'my-prog-mode-hook)
+
+;; visible bell on El Capitan is crap
+(setq visible-bell nil)
+(setq ring-bell-function
+      (lambda ()
+        (invert-face 'mode-line)
+        (run-with-timer 0.1 nil 'invert-face 'mode-line)))
+
 
 (defun random-ip ()
   (concat "10."
@@ -130,7 +152,8 @@
  'html-mode-hook
  (lambda ()
    (set (make-local-variable 'sgml-basic-offset) 2)))
-;; there ought to be a python starter kit
+
+;;;; python stuff
 (defun python-insert-pdb-breakpoint ()
   (interactive)
   (indent-for-tab-command)
@@ -149,20 +172,37 @@
   (insert "import q; q.q()")
   (backward-char))
 
-(add-hook 'python-mode-hook
-          (lambda ()
-            (setq fill-column 76)
-            (setq python-fill-docstring-style 'django)
-            (local-set-key (kbd "RET") 'newline-and-indent)
-            (local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)
-            (local-set-key [(control \;) ?q ?q] 'python-insert-q-q)
-            (local-set-key [(control \;) ?d ?p] 'python-insert-dprint)))
+(defun python-insert-pprint ()
+  (interactive)
+  (indent-for-tab-command)
+  (insert "from pprint import pprint; pprint()")
+  (backward-char))
+
+(defun my-python-mode-hook ()
+	(setq fill-column 76)
+	(setq python-fill-docstring-style 'django)
+	(local-set-key (kbd "RET") 'newline-and-indent)
+	(local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)
+	(local-set-key [(control \;) ?q ?q] 'python-insert-q-q)
+	(local-set-key [(control \;) ?p ?p] 'python-insert-pprint)
+	(local-set-key [(control \;) ?d ?p] 'python-insert-dprint))
+
+(add-hook 'python-mode-hook 'my-python-mode-hook)
+
+;;;; Elisp stuff
+(defun my-emacs-lisp-mode-hook ()
+	(paredit-mode)
+	(setq tab-width 2))
+
+(add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
 ;; Take all the windows in the current frame and shift them over one.
 ;;
 ;; With 2 windows, effectively switches their positions.
 ;;
 ;; With 1 window, this is a no-op.
+;;
+;; With 3 or more windows, this confuses the user.
 (defun rotate-windows ()
   (interactive)
   (let ((buffers (mapcar 'window-buffer (window-list))))
@@ -193,19 +233,35 @@
 (add-to-list 'ffip-patterns "*.tmpl")
 (add-to-list 'ffip-patterns "*.rst")
 (add-to-list 'ffip-patterns "*.java")
+(add-to-list 'ffip-patterns "*.py")
+(add-to-list 'ffip-patterns "*.go")
 (setq ffip-limit 2048)
 
-;; Don't try to connect to something just because its name is under
-;; point. It just locks up Emacs for a while and pisses me off.
-(setq ido-use-filename-at-point nil)
+;; Don't look in .tox; it's never what I want
+(add-to-list 'ffip-prune-patterns "*/.tox/*") ;; Python: tox virtualenvs
+(add-to-list 'ffip-prune-patterns "*/*.egg-info/*") ;; Python: setup.py droppings
+(add-to-list 'ffip-prune-patterns "*/doc/build/*") ;; Sphinx: built docs
 
-(setq initial-scratch-message nil)
+(setq ffip-find-options (concat ffip-find-options " -not -regex \".*/.tox/.*\""))
+
+;;;; ido-mode is basically magic
+(ido-mode t)
+
+(setq
+ ;; Don't try to connect to something just because its name is under
+ ;; point. It just locks up Emacs for a while and pisses me off.
+ ido-use-filename-at-point nil
+
+ ido-enable-flex-matching t
+ )
 
 (setq lua-indent-level 2)  ;; default is 3; who uses 3 spaces?
 
 (require 'grep)
 (add-to-list 'grep-find-ignored-directories ".venv")
+(add-to-list 'grep-find-ignored-directories ".tox")
 (add-to-list 'grep-find-ignored-directories "migrations")
+(add-to-list 'grep-find-ignored-directories "build")
 
 
 ;; the default C indentation is pretty horrible
@@ -215,12 +271,54 @@
             (c-set-style "linux")
             (setq c-basic-offset 4)))
 
+;;;; golang stuff
+;; If you install your own Go environment, it typically ends up in
+;; /usr/local/bin.
+(setq exec-path (cons "/usr/local/bin" exec-path))
+(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+
+;; goimports uses this to find my imports
+(setenv "GOPATH" (concat (getenv "HOME") "/go"))
+
+(defun go-if-err (preerr posterr)
+  (let ((action (format "%serr%s" preerr posterr)))
+    (dolist (line `("if err != nil {"
+                    ,action
+                    "}"))
+      (insert line)
+      (indent-for-tab-command)
+      (newline))
+    (delete-backward-char 1))) ; one too many newlines
+
+(defun go-return-if-err ()
+  (interactive)
+  (go-if-err "return " ""))
+
+(defun go-panic-if-err ()
+  (interactive)
+  (go-if-err "panic(" ")"))
+
+(defun my-go-mode-hook ()
+  (setq tab-width 4)
+  (setq gofmt-command "~/go/bin/goimports")
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (local-set-key (kbd "M-=") (lambda () (interactive) (insert ":=")))
+	(local-set-key [(control \;) ?r ?e] 'go-return-if-err)
+	(local-set-key [(control \;) ?p ?e] 'go-panic-if-err))
+
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(safe-local-variable-values (quote ((encoding . utf-8) (whitespace-line-column . 80) (lexical-binding . t)))))
+ '(safe-local-variable-values
+   (quote
+    ((encoding . utf-8)
+     (whitespace-line-column . 80)
+		 (ido-use-virtual-buffers . t)
+     (lexical-binding . t)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
