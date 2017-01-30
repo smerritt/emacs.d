@@ -313,6 +313,7 @@
 
 (defun my-go-mode-hook ()
   (setq tab-width 4)
+	(setq fill-column 120)
   (setq gofmt-command "~/go/bin/goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
   (local-set-key (kbd "M-=") (lambda () (interactive) (insert ":=")))
