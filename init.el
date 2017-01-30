@@ -98,16 +98,28 @@
         (run-with-timer 0.1 nil 'invert-face 'mode-line)))
 
 
-(defun random-ip ()
+(defun random-ipv4-address ()
   (concat "10."
           (mapconcat
            (lambda (_) (format "%d" (random 256)))
            (make-list 3 'dontcare)
            ".")))
 
-(defun insert-random-ip ()
+(defun insert-random-ipv4-address ()
   (interactive)
-  (insert (random-ip)))
+  (insert (random-ipv4-address)))
+
+
+(defun random-ipv6-address ()
+  (concat "fc00:"
+          (mapconcat
+           (lambda (_) (format "%x" (random 65536)))
+           (make-list 7 'dontcare)
+           ":")))
+
+(defun insert-random-ipv6-address ()
+  (interactive)
+  (insert (random-ipv6-address)))
 
 (defun random-mac ()
   (mapconcat
@@ -140,7 +152,8 @@
            (concat (getenv "HOME") "/bin/random-string -n"))))
 
 
-(global-set-key [(control \;) ?r ?i] 'insert-random-ip)
+(global-set-key [(control \;) ?r ?i ?4] 'insert-random-ipv4-address)
+(global-set-key [(control \;) ?r ?i ?6] 'insert-random-ipv6-address)
 (global-set-key [(control \;) ?r ?h] 'insert-random-hash)
 (global-set-key [(control \;) ?r ?m] 'insert-random-mac)
 (global-set-key [(control \;) ?r ?n] 'insert-random-number)
