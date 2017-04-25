@@ -38,7 +38,9 @@
  inhibit-startup-message t
  sentence-end-double-space nil
  initial-scratch-message nil
- confirm-kill-emacs 'y-or-n-p)
+ confirm-kill-emacs 'y-or-n-p
+ split-width-threshold 200
+ )
 
 (delete-selection-mode)
 (random t)                              ; reseed
