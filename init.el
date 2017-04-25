@@ -137,9 +137,13 @@
   (interactive)
   (insert (number-to-string (random 9999999))))
 
-(defun insert-time ()
+(defun insert-unix-time ()
   (interactive)
   (insert (number-to-string (float-time))))
+
+(defun insert-nano-time ()
+  (interactive)
+  (insert (format-time-string "%s%N")))
 
 (defun insert-random-hash ()
   ;; 128 random bits; looks sort of MD5-ish
@@ -153,6 +157,15 @@
   (insert (shell-command-to-string
            (concat (getenv "HOME") "/bin/random-string -n"))))
 
+(defun insert-random-uuid ()
+	(interactive)
+	(insert (format "%08x-%04x-%04x-%04x-%012x"
+									(random (expt 16 8))
+									(random (expt 16 4))
+									(random (expt 16 4))
+									(random (expt 16 4))
+									(random (expt 16 12)))))
+
 
 (global-set-key [(control \;) ?r ?i ?4] 'insert-random-ipv4-address)
 (global-set-key [(control \;) ?r ?i ?6] 'insert-random-ipv6-address)
@@ -160,7 +173,9 @@
 (global-set-key [(control \;) ?r ?m] 'insert-random-mac)
 (global-set-key [(control \;) ?r ?n] 'insert-random-number)
 (global-set-key [(control \;) ?r ?s] 'insert-random-string)
-(global-set-key [(control \;) ?r ?t] 'insert-time)
+(global-set-key [(control \;) ?r ?u] 'insert-random-uuid)
+(global-set-key [(control \;) ?u ?t] 'insert-unix-time)
+(global-set-key [(control \;) ?n ?t] 'insert-nano-time)
 
 
 (add-hook
@@ -331,6 +346,16 @@
   (interactive)
   (go-if-err "panic(" ")"))
 
+(defun go-assert-return-if-err ()
+  (interactive)
+	(dolist (line `("if !assert.Nil(err) {"
+									"return"
+									"}"))
+		(insert line)
+		(indent-for-tab-command)
+		(newline))
+	(delete-backward-char 1)) ; one too many newlines
+
 (defun my-go-mode-hook ()
   (setq tab-width 4)
 	(setq fill-column 120)
@@ -338,7 +363,8 @@
   (add-hook 'before-save-hook 'gofmt-before-save)
   (local-set-key (kbd "M-=") (lambda () (interactive) (insert ":=")))
 	(local-set-key [(control \;) ?r ?e] 'go-return-if-err)
-	(local-set-key [(control \;) ?p ?e] 'go-panic-if-err))
+	(local-set-key [(control \;) ?p ?e] 'go-panic-if-err)
+	(local-set-key [(control \;) ?a ?e] 'go-assert-return-if-err))
 
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
