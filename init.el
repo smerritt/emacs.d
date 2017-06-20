@@ -220,10 +220,18 @@
 			(insert "\n")
 			(let (pyvar)
 				(dolist (pyvar (split-string (buffer-substring start end) "[ \t\n]*,[ \t\n]*"))
-					(insert "self." pyvar " = " pyvar)
-					(indent-for-tab-command)
-					(insert "\n")
-					)))))
+					;; Handle keyword args; otherwise you get stuff like "self.x=None = x=None"
+					(let ((equals-sign-idx (string-match-p "=" pyvar))
+								(star-idx (string-match (regexp-quote "*") pyvar)))
+						(cond ((numberp star-idx)) ;; do nothing for *args or **kwargs
+									((null equals-sign-idx)  ;; no default for arg
+									 (insert "self." pyvar " = " pyvar)
+									 (indent-for-tab-command)
+									 (insert "\n"))
+									(t (let ((actual-pyvar (substring pyvar 0 equals-sign-idx)))
+											 (insert "self." actual-pyvar " = " actual-pyvar)
+											 (indent-for-tab-command)
+											 (insert "\n"))))))))))
 
 (defun my-python-mode-hook ()
 	(setq fill-column 76)
