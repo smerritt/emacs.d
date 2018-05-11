@@ -295,6 +295,8 @@
 (add-to-list 'ffip-prune-patterns "*/.tox/*") ;; Python: tox virtualenvs
 (add-to-list 'ffip-prune-patterns "*/*.egg-info/*") ;; Python: setup.py droppings
 (add-to-list 'ffip-prune-patterns "*/doc/build/*") ;; Sphinx: built docs
+(add-to-list 'ffip-prune-patterns "*/build/*") ;; Python: leftovers from "setup.py install"
+(add-to-list 'ffip-prune-patterns "*/.eggs/*") ;; Python: more leftovers from "setup.py install"
 
 (setq ffip-find-options (concat ffip-find-options " -not -regex \".*/.tox/.*\""))
 
