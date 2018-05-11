@@ -381,12 +381,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+	 (quote
+		(gorepl-mode god-mode unicode-fonts twilight-theme smex paredit markdown-mode go-mode find-file-in-project color-theme clojure-mode)))
  '(safe-local-variable-values
-   (quote
-    ((encoding . utf-8)
-     (whitespace-line-column . 80)
+	 (quote
+		((eval c-set-offset
+					 (quote innamespace)
+					 0)
+		 (encoding . utf-8)
+		 (whitespace-line-column . 80)
 		 (ido-use-virtual-buffers . t)
-     (lexical-binding . t)))))
+		 (lexical-binding . t)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
