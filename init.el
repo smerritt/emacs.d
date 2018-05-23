@@ -17,6 +17,7 @@
     twilight-theme
     color-theme
 		smex
+		yasnippet
     unicode-fonts)
   "A list of packages to ensure are installed at launch.")
 
@@ -82,6 +83,18 @@
 ;; or exit emacs (!) when running in Emacs.app
 (when window-system (global-unset-key "\C-z"))
 
+;; make yasnippet and hippie-expand play well together
+(setq hippie-expand-try-functions-list
+			'(yas/hippie-try-expand
+				try-expand-dabbrev
+				try-expand-dabbrev-all-buffers
+				try-expand-dabbrev-from-kill))
+
+;; make snippets available in programming modes (I'm not sure why
+;; yas/hippie-try-expand needs this, but it never finds snippets
+;; unless you do this)
+(add-hook 'prog-mode-hook #'yas-minor-mode)
+
 ;; just nice to have when writing code
 (defun my-prog-mode-hook ()
 	(column-number-mode)
@@ -89,6 +102,7 @@
 	(show-paren-mode 1))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
+
 
 ;; visible bell on El Capitan is crap
 (setq visible-bell nil)
@@ -383,7 +397,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
 	 (quote
-		(gorepl-mode god-mode unicode-fonts twilight-theme smex paredit markdown-mode go-mode find-file-in-project color-theme clojure-mode)))
+		(yasnippet gorepl-mode god-mode unicode-fonts twilight-theme smex paredit markdown-mode go-mode find-file-in-project color-theme clojure-mode)))
  '(safe-local-variable-values
 	 (quote
 		((eval c-set-offset
@@ -399,3 +413,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'downcase-region 'disabled nil)

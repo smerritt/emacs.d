@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: self.assertEqual()
+# key: ae
+# --
+self.assertEqual($0)

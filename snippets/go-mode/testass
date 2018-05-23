@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Go testcase with assert library
+# key: testass
+# --
+func Test$1 (t *testing.T) {
+	 assert := assert.New(t)
+	 $0
+}

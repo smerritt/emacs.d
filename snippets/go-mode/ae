@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: assert.Equal()
+# key: ae
+# --
+assert.Equal($0)

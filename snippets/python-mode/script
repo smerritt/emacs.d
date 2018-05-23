@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: script
+# key: script
+# taken-from: https://raw.githubusercontent.com/AndreaCrotti/yasnippet-snippets/master/snippets/python-mode/script
+# --
+#!/usr/bin/env python
+
+def main():
+    pass
+
+if __name__ == '__main__':
+    main()

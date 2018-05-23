@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: x = append(x, item)
+# key: app
+# --
+$1 = append($1, $0)

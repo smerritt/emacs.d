@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: assert.Nil(err)
+# key: an
+# --
+assert.Nil(err)
+$0

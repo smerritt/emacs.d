@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mock.patch.object()
+# key: mpo
+# --
+mock.patch.object($0)

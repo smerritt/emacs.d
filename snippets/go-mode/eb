@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: empty byte slice
+# key: eb	  
+# --
+[]byte{}$0
