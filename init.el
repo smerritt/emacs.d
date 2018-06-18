@@ -390,6 +390,9 @@
 
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
+;; actually load snippets
+(yas-reload-all)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
