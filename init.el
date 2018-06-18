@@ -26,6 +26,7 @@
     (package-install p)))
 
 (require 'twilight-theme)
+(require 'yasnippet)
 
 ;;;; Basic setup: colors, modifier keys, builtin behaviors, etc.
 ;; Emacs for OSX has this toolbar with stuff like save, open,
