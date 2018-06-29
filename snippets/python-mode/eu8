@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: encode("utf-8")
+# key: eu8
+# --
+encode("utf-8")$0

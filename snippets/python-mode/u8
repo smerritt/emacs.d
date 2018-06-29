@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: "utf-8"
+# key: u8
+# --
+"utf-8"$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: decode("utf-8")
+# key: du8
+# --
+decode("utf-8")$0
