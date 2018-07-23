@@ -5,3 +5,6 @@ places
 url/cookies
 auto-save-list/
 tramp
+ido.*
+session.*
+var/
