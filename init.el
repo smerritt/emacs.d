@@ -11,7 +11,7 @@
 
 (defvar my-packages
   '(go-mode
-		paredit
+    paredit
     clojure-mode
     markdown-mode
     twilight-anti-bright-theme
@@ -86,10 +86,10 @@
 
 ;; make yasnippet and hippie-expand play well together
 (setq hippie-expand-try-functions-list
-			'(yas/hippie-try-expand
-				try-expand-dabbrev
-				try-expand-dabbrev-all-buffers
-				try-expand-dabbrev-from-kill))
+            '(yas/hippie-try-expand
+                try-expand-dabbrev
+                try-expand-dabbrev-all-buffers
+                try-expand-dabbrev-from-kill))
 
 ;; make snippets available in programming modes (I'm not sure why
 ;; yas/hippie-try-expand needs this, but it never finds snippets
@@ -98,9 +98,9 @@
 
 ;; just nice to have when writing code
 (defun my-prog-mode-hook ()
-	(column-number-mode)
-	(setq tab-width 4)
-	(show-paren-mode 1))
+    (column-number-mode)
+    (setq tab-width 4)
+    (show-paren-mode 1))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 
@@ -171,13 +171,13 @@
            (concat (getenv "HOME") "/bin/random-string -n"))))
 
 (defun insert-random-uuid ()
-	(interactive)
-	(insert (format "%08x-%04x-%04x-%04x-%012x"
-									(random (expt 16 8))
-									(random (expt 16 4))
-									(random (expt 16 4))
-									(random (expt 16 4))
-									(random (expt 16 12)))))
+    (interactive)
+    (insert (format "%08x-%04x-%04x-%04x-%012x"
+                                    (random (expt 16 8))
+                                    (random (expt 16 4))
+                                    (random (expt 16 4))
+                                    (random (expt 16 4))
+                                    (random (expt 16 12)))))
 
 
 (global-set-key [(control \;) ?r ?i ?4] 'insert-random-ipv4-address)
@@ -222,46 +222,46 @@
   (backward-char))
 
 (defun python-auto-constructor ()
-	(interactive)
-	(search-backward "self, ")
-	(forward-char 6)
-	(let ((start (point)))
-		(search-forward ")")
-		(backward-char 1)
-		(let ((end (point)))
-			(move-end-of-line nil)
-			(insert "\n")
-			(let (pyvar)
-				(dolist (pyvar (split-string (buffer-substring start end) "[ \t\n]*,[ \t\n]*"))
-					;; Handle keyword args; otherwise you get stuff like "self.x=None = x=None"
-					(let ((equals-sign-idx (string-match-p "=" pyvar))
-								(star-idx (string-match (regexp-quote "*") pyvar)))
-						(cond ((numberp star-idx)) ;; do nothing for *args or **kwargs
-									((null equals-sign-idx)  ;; no default for arg
-									 (insert "self." pyvar " = " pyvar)
-									 (indent-for-tab-command)
-									 (insert "\n"))
-									(t (let ((actual-pyvar (substring pyvar 0 equals-sign-idx)))
-											 (insert "self." actual-pyvar " = " actual-pyvar)
-											 (indent-for-tab-command)
-											 (insert "\n"))))))))))
+    (interactive)
+    (search-backward "self, ")
+    (forward-char 6)
+    (let ((start (point)))
+        (search-forward ")")
+        (backward-char 1)
+        (let ((end (point)))
+            (move-end-of-line nil)
+            (insert "\n")
+            (let (pyvar)
+                (dolist (pyvar (split-string (buffer-substring start end) "[ \t\n]*,[ \t\n]*"))
+                    ;; Handle keyword args; otherwise you get stuff like "self.x=None = x=None"
+                    (let ((equals-sign-idx (string-match-p "=" pyvar))
+                                (star-idx (string-match (regexp-quote "*") pyvar)))
+                        (cond ((numberp star-idx)) ;; do nothing for *args or **kwargs
+                                    ((null equals-sign-idx)  ;; no default for arg
+                                     (insert "self." pyvar " = " pyvar)
+                                     (indent-for-tab-command)
+                                     (insert "\n"))
+                                    (t (let ((actual-pyvar (substring pyvar 0 equals-sign-idx)))
+                                             (insert "self." actual-pyvar " = " actual-pyvar)
+                                             (indent-for-tab-command)
+                                             (insert "\n"))))))))))
 
 (defun my-python-mode-hook ()
-	(setq fill-column 76)
-	(setq python-fill-docstring-style 'django)
-	(local-set-key (kbd "RET") 'newline-and-indent)
-	(local-set-key [(control \;) ?a ?c] 'python-auto-constructor)
-	(local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)
-	(local-set-key [(control \;) ?q ?q] 'python-insert-q-q)
-	(local-set-key [(control \;) ?p ?p] 'python-insert-pprint)
-	(local-set-key [(control \;) ?d ?p] 'python-insert-dprint))
+    (setq fill-column 76)
+    (setq python-fill-docstring-style 'django)
+    (local-set-key (kbd "RET") 'newline-and-indent)
+    (local-set-key [(control \;) ?a ?c] 'python-auto-constructor)
+    (local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)
+    (local-set-key [(control \;) ?q ?q] 'python-insert-q-q)
+    (local-set-key [(control \;) ?p ?p] 'python-insert-pprint)
+    (local-set-key [(control \;) ?d ?p] 'python-insert-dprint))
 
 (add-hook 'python-mode-hook 'my-python-mode-hook)
 
 ;;;; Elisp stuff
 (defun my-emacs-lisp-mode-hook ()
-	(paredit-mode)
-	(setq tab-width 2))
+    (paredit-mode)
+    (setq tab-width 2))
 
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
@@ -371,23 +371,23 @@
 
 (defun go-assert-return-if-err ()
   (interactive)
-	(dolist (line `("if !assert.Nil(err) {"
-									"return"
-									"}"))
-		(insert line)
-		(indent-for-tab-command)
-		(newline))
-	(delete-backward-char 1)) ; one too many newlines
+    (dolist (line `("if !assert.Nil(err) {"
+                                    "return"
+                                    "}"))
+        (insert line)
+        (indent-for-tab-command)
+        (newline))
+    (delete-backward-char 1)) ; one too many newlines
 
 (defun my-go-mode-hook ()
   (setq tab-width 4)
-	(setq fill-column 120)
+    (setq fill-column 120)
   (setq gofmt-command "~/go/bin/goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
   (local-set-key (kbd "M-=") (lambda () (interactive) (insert ":=")))
-	(local-set-key [(control \;) ?r ?e] 'go-return-if-err)
-	(local-set-key [(control \;) ?p ?e] 'go-panic-if-err)
-	(local-set-key [(control \;) ?a ?e] 'go-assert-return-if-err))
+    (local-set-key [(control \;) ?r ?e] 'go-return-if-err)
+    (local-set-key [(control \;) ?p ?e] 'go-panic-if-err)
+    (local-set-key [(control \;) ?a ?e] 'go-assert-return-if-err))
 
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
@@ -400,17 +400,17 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-	 (quote
-		(yasnippet gorepl-mode god-mode unicode-fonts twilight-theme smex paredit markdown-mode go-mode find-file-in-project color-theme clojure-mode)))
+     (quote
+        (yasnippet gorepl-mode god-mode unicode-fonts twilight-theme smex paredit markdown-mode go-mode find-file-in-project color-theme clojure-mode)))
  '(safe-local-variable-values
-	 (quote
-		((eval c-set-offset
-					 (quote innamespace)
-					 0)
-		 (encoding . utf-8)
-		 (whitespace-line-column . 80)
-		 (ido-use-virtual-buffers . t)
-		 (lexical-binding . t)))))
+     (quote
+        ((eval c-set-offset
+                     (quote innamespace)
+                     0)
+         (encoding . utf-8)
+         (whitespace-line-column . 80)
+         (ido-use-virtual-buffers . t)
+         (lexical-binding . t)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
