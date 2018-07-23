@@ -394,6 +394,14 @@
 ;; actually load snippets
 (yas-reload-all)
 
+
+;; if there's some machine-specific configuration, go ahead and load it
+(let* ((dotfiles-dir (file-name-directory
+											(or (buffer-file-name) load-file-name)))
+			 (machine-specific-config-file (concat dotfiles-dir (system-name) ".el")))
+	(if (file-exists-p machine-specific-config-file)
+			(load machine-specific-config-file)))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
