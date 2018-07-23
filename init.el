@@ -14,18 +14,18 @@
 		paredit
     clojure-mode
     markdown-mode
-    twilight-theme
-    color-theme
-		smex
-		yasnippet
-    unicode-fonts)
+    twilight-anti-bright-theme
+    smex
+    yasnippet
+    unicode-fonts
+		find-file-in-project)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
-(require 'twilight-theme)
+(require 'twilight-anti-bright-theme)
 (require 'yasnippet)
 
 ;;;; Basic setup: colors, modifier keys, builtin behaviors, etc.
