@@ -62,6 +62,10 @@
 (global-set-key [(shift tab)] 'hippie-expand)
 (global-set-key [(control c) ?r] 'revert-buffer)
 
+;; I never really want zap-to-char. I pretty much always want the
+;; character that I'm zapping to.
+(global-set-key [(meta z)] 'zap-up-to-char)
+
 ;; C-' to start/end macro, C-M-' to run it
 (defun start-or-end-kmacro ()
   (interactive)
