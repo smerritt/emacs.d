@@ -263,6 +263,17 @@
 
 (add-hook 'python-mode-hook 'my-python-mode-hook)
 
+;;;; Protobuf mode
+(defconst my-protobuf-style
+  ;; 2-space indentation, no tabs
+  '((c-basic-offset . 2)
+    (indent-tabs-mode . nil)))
+
+(add-hook 'protobuf-mode-hook
+          (lambda ()
+            (c-add-style "my-style" my-protobuf-style t)))
+
+
 ;;;; Elisp stuff
 (defun my-emacs-lisp-mode-hook ()
     (paredit-mode)
