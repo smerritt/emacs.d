@@ -60,6 +60,7 @@
 (global-set-key [(control \;) ?f ?f] 'ffip)
 (global-set-key [(control tab)] 'hippie-expand)
 (global-set-key [(shift tab)] 'hippie-expand)
+(global-set-key [(backtab)] 'hippie-expand)
 (global-set-key [(control c) ?r] 'revert-buffer)
 
 ;; I never really want zap-to-char. I pretty much always want the
