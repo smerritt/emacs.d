@@ -253,7 +253,7 @@
 
 (defun my-python-mode-hook ()
     (setq fill-column 76)
-    (setq python-fill-docstring-style 'django)
+    (setq python-fill-docstring-style 'pep-257-nn)
     (local-set-key (kbd "RET") 'newline-and-indent)
     (local-set-key [(control \;) ?a ?c] 'python-auto-constructor)
     (local-set-key [(control \;) ?b ?p] 'python-insert-pdb-breakpoint)
