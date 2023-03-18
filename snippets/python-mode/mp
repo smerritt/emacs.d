@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: mock.patch()
-# key: mp
-# --
-mock.patch($0)

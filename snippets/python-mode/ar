@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: with self.assertRaises()
-# key: ar
-# --
-with self.assertRaises($1):
-    $0

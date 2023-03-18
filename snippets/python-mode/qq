@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: q.q()
-# key: qq
-# --
-import q; q.q($0)
