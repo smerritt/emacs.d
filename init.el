@@ -9,7 +9,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme)))
+   '(typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
