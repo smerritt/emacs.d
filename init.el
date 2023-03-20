@@ -3,6 +3,21 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(package-install-selected-packages t)
+
 ;; SSH on Windows requires plink
 (require 'tramp)
 (if (eq system-type 'windows-nt)
@@ -264,19 +279,3 @@
 
 ;; Don't even generate filenames in .tox only to ignore them later; it's slow
 (setq ffip-find-options (concat ffip-find-options " -not -regex \".*/.tox/.*\""))
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
