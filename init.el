@@ -251,6 +251,23 @@
 (add-hook 'python-mode-hook 'my-python-mode-hook)
 
 ;;
+;; Typescript and Javascript configuration
+;;
+(require 'typescript-mode)
+(defun my-typescript-mode-hook ()
+  (setq tab-width 2)
+  (setq typescript-indent-level 2))
+
+(add-hook 'typescript-mode-hook 'my-typescript-mode-hook)
+
+; no require needed, apparently
+(defun my-js-mode-hook ()
+  (setq tab-width 2)
+  (setq js-indent-level 2))
+
+(add-hook 'js-mode-hook 'my-js-mode-hook)
+
+;;
 ;; ffip configuration
 ;;
 
