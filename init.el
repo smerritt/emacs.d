@@ -262,6 +262,9 @@
 
 ; no require needed, apparently
 (defun my-js-mode-hook ()
+  ;; semistandard JS style rejects tabs, so let's just use spaces.
+  (setq indent-tabs-mode nil)
+  
   (setq tab-width 2)
   (setq js-indent-level 2))
 
