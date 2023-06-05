@@ -58,7 +58,10 @@
  split-width-threshold 200
  )
 
+;; Show line numbers. In the terminal, add some padding.
 (global-linum-mode 1)
+(if (null window-system)
+    (setq linum-format "%d "))
 
 ;; Don't minimized on Ctrl-z (C-x C-z is fine, though)
 (global-unset-key "\C-z")
