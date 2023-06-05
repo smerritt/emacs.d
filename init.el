@@ -9,14 +9,15 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme)))
+   '(typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme))
+ '(visible-bell t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(package-install-selected-packages t)
+(package-install-selected-packages)
 
 ;; SSH on Windows requires plink
 (require 'tramp)
