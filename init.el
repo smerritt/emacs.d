@@ -30,7 +30,6 @@
 (load-theme 'solarized-dark t)
 (set-background-color "black")
 
-
 ;; iswitchb is dead; long live ido
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -39,7 +38,6 @@
  ;; Don't try to connect to something just because its name is under
  ;; point. It just locks up Emacs for a while and pisses me off.
  ido-use-filename-at-point nil
-
  ido-enable-flex-matching t
  )
 
@@ -291,6 +289,11 @@
 (add-to-list 'ffip-patterns "*.java")
 (add-to-list 'ffip-patterns "*.py")
 (add-to-list 'ffip-patterns "*.go")
+(add-to-list 'ffip-patterns "*.h")
+(add-to-list 'ffip-patterns "*.c")
+(add-to-list 'ffip-patterns "*.cpp")
+(add-to-list 'ffip-patterns "*.c++")
+(add-to-list 'ffip-patterns "*.bazel")
 (setq ffip-limit 2048)
 
 ;; Don't look in .tox; it's never what I want
