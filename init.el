@@ -9,7 +9,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(markdown-mode bazel exwm-mff yaml-mode typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme))
+   '(capnp-mode markdown-mode bazel exwm-mff yaml-mode typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme))
  '(visible-bell t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -305,3 +305,6 @@
 
 ;; Don't even generate filenames in .tox only to ignore them later; it's slow
 (setq ffip-find-options (concat ffip-find-options " -not -regex \".*/.tox/.*\""))
+
+;; CapnProto
+(require 'capnp-mode)
