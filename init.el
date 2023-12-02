@@ -9,7 +9,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(capnp-mode markdown-mode bazel exwm-mff yaml-mode typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme))
+   '(clang-format capnp-mode markdown-mode bazel exwm-mff yaml-mode typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme))
  '(visible-bell t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -308,3 +308,17 @@
 
 ;; CapnProto
 (require 'capnp-mode)
+
+;; clang-format
+(require 'clang-format)
+
+; Try to find the latest and greatest clang-format if the default is
+; not there. This happens on Ubuntu if you install, say,
+; clang-format-17 and remove clang-format. /usr/bin/clang-format is
+; clang-format-14, and if you want anything newer, you have to name it
+; explicitly.
+(if (not (file-executable-p clang-format-executable))
+    (let ((clang-formats (seq-filter (lambda (fname) (string-match "\\`clang-format-[0-9]\\{1,\\}" fname))
+				     (sort (directory-files "/usr/bin") 'string>))))
+      (if (not (null clang-formats))
+	  (setq clang-format-executable (concat "/usr/bin/" (car clang-formats))))))
