@@ -48,6 +48,7 @@
 (tool-bar-mode 0)
 
 ;; Miscellaneous
+(server-start)
 
 (setq
  kill-whole-line t
