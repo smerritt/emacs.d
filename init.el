@@ -9,7 +9,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme))
+   '(markdown-mode bazel exwm-mff yaml-mode typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme))
  '(visible-bell t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
