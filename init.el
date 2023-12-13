@@ -272,6 +272,15 @@
 (add-hook 'js-mode-hook 'my-js-mode-hook)
 
 ;;
+;; C++ mode
+;;
+(defun my-c++-mode-hook ()
+  (column-number-mode)
+  (setq 'fill-column 115)
+  (c-set-offset 'innamespace [0]))
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
+;;
 ;; ffip configuration
 ;;
 
