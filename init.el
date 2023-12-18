@@ -48,6 +48,9 @@
 ;; Miscellaneous
 (server-start)
 
+;; Don't litter backup files everywhere
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+
 (setq
  kill-whole-line t
  inhibit-startup-message t
