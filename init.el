@@ -279,9 +279,19 @@
 ;;
 (defun my-c++-mode-hook ()
   (column-number-mode)
-  (setq 'fill-column 115)
-  (c-set-offset 'innamespace [0]))
+
+  ;; Try to match KJ style
+  (setq fill-column 115)
+  (setq c-basic-offset 2)
+  (c-set-offset 'innamespace [0])
+  (c-set-offset 'arglist-intro '++)
+  (c-set-offset 'arglist-close 0)
+
+  (eglot-ensure))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd-17" "--background-index" "--header-insertion=never" "--query-driver=**"))))
 
 ;;
 ;; ffip configuration
