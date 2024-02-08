@@ -262,7 +262,8 @@
 (require 'typescript-mode)
 (defun my-typescript-mode-hook ()
   (setq tab-width 2)
-  (setq typescript-indent-level 2))
+  (setq typescript-indent-level 2)
+  (setq indent-tabs-mode nil))
 
 (add-hook 'typescript-mode-hook 'my-typescript-mode-hook)
 
