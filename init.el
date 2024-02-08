@@ -9,7 +9,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(clang-format capnp-mode markdown-mode bazel exwm-mff yaml-mode typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme))
+   '(clang-format capnp-mode markdown-mode bazel exwm-mff yaml-mode typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme rust-mode))
  '(visible-bell t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -286,12 +286,22 @@
   (c-set-offset 'innamespace [0])
   (c-set-offset 'arglist-intro '++)
   (c-set-offset 'arglist-close 0)
-
   (eglot-ensure))
+
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd-17" "--background-index" "--header-insertion=never" "--query-driver=**"))))
+
+;;
+;; Rust mode
+;;
+(defun my-rust-mode-hook ()
+  (setq indent-tabs-mode nil)
+  (eglot-ensure))
+
+(add-hook 'rust-mode-hook 'my-rust-mode-hook)
+
 
 ;;
 ;; ffip configuration
