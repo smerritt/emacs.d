@@ -48,6 +48,8 @@
 ;; Miscellaneous
 (server-start)
 
+(global-auto-revert-mode)
+
 ;; Don't litter backup files everywhere
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
