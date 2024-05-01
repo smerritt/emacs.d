@@ -272,7 +272,7 @@
 (defun my-js-mode-hook ()
   ;; semistandard JS style rejects tabs, so let's just use spaces.
   (setq indent-tabs-mode nil)
-  
+
   (setq tab-width 2)
   (setq js-indent-level 2))
 
@@ -281,6 +281,7 @@
 ;;
 ;; C++ mode
 ;;
+
 (defun my-c++-mode-hook ()
   (column-number-mode)
 
@@ -293,6 +294,7 @@
   (eglot-ensure))
 
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+(add-hook 'c++-ts-mode-hook 'my-c++-mode-hook)
 
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd-17" "--background-index" "--header-insertion=never" "--query-driver=**"))))
@@ -358,3 +360,30 @@
 				     (sort (directory-files "/usr/bin") 'string>))))
       (if (not (null clang-formats))
 	  (setq clang-format-executable (concat "/usr/bin/" (car clang-formats))))))
+
+;; treesit
+(require 'treesit)
+
+; There are others out there, but these are some of the official ones,
+; where "official" means "under github.com/tree-sitter".
+(setq treesit-language-source-alist
+      '((bash . ("https://github.com/tree-sitter/tree-sitter-bash"))
+	(c . ("https://github.com/tree-sitter/tree-sitter-c"))
+	(cpp . ("https://github.com/tree-sitter/tree-sitter-cpp"))
+	(css . ("https://github.com/tree-sitter/tree-sitter-css"))
+	(go . ("https://github.com/tree-sitter/tree-sitter-go"))
+	(haskell . ("https://github.com/tree-sitter/tree-sitter-haskell"))
+	(html . ("https://github.com/tree-sitter/tree-sitter-html"))
+	(java . ("https://github.com/tree-sitter/tree-sitter-java"))
+	(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
+	(jsdoc . ("https://github.com/tree-sitter/tree-sitter-jsdoc"))
+	(json . ("https://github.com/tree-sitter/tree-sitter-json"))
+	(julia . ("https://github.com/tree-sitter/tree-sitter-julia"))
+	(python . ("https://github.com/tree-sitter/tree-sitter-python"))
+	(regex . ("https://github.com/tree-sitter/tree-sitter-regex"))
+	(ruby . ("https://github.com/tree-sitter/tree-sitter-ruby"))
+	(rust . ("https://github.com/tree-sitter/tree-sitter-rust"))
+	(scala . ("https://github.com/tree-sitter/tree-sitter-scala"))
+	(swift . ("https://github.com/tree-sitter/tree-sitter-swift"))
+	(toml . ("https://github.com/tree-sitter/tree-sitter-toml"))
+	(typescript . ("https://github.com/tree-sitter/tree-sitter-typescript"))))
