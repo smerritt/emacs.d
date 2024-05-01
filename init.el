@@ -65,8 +65,9 @@
 ;; Show line numbers.
 (global-display-line-numbers-mode)
 
-;; Don't minimized on Ctrl-z (C-x C-z is fine, though)
+;; Don't minimize on anything; I pretty much never want to.
 (global-unset-key "\C-z")
+(global-unset-key "\C-x\C-z")
 
 ;; Let me type over things
 (delete-selection-mode)
