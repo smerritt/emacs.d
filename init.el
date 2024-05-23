@@ -291,6 +291,10 @@
   (c-set-offset 'innamespace [0])
   (c-set-offset 'arglist-intro '++)
   (c-set-offset 'arglist-close 0)
+
+  ;; I use this a lot, and "M-x co-at" is too long to type
+  (keymap-local-set "<backtab>" 'completion-at-point)  ;; it's shift-tab
+
   (eglot-ensure))
 
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
