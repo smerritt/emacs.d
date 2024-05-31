@@ -314,6 +314,14 @@
 
 
 ;;
+;; Go mode
+;;
+(defun my-go-mode-hook ()
+  (eglot-ensure))
+
+(add-hook 'go-ts-mode-hook 'my-go-mode-hook)
+
+;;
 ;; ffip configuration
 ;;
 
