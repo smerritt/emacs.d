@@ -286,7 +286,7 @@
   (column-number-mode)
 
   ;; Try to match KJ style
-  (setq fill-column 115)
+  (setq fill-column 100)
   (setq c-basic-offset 2)
   (c-set-offset 'innamespace [0])
   (c-set-offset 'arglist-intro '++)
