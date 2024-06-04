@@ -301,7 +301,17 @@
   ;; I use this a lot, and "M-x co-at" is too long to type
   (keymap-local-set "<backtab>" 'completion-at-point)  ;; it's shift-tab
 
-  (eglot-ensure))
+  (eglot-ensure)
+
+  ;; If there's a .clang-format, format the buffer.
+  (add-hook 'before-save-hook
+	    (lambda ()
+	      (when (locate-dominating-file "." ".clang-format")
+		(clang-format-buffer)))
+	    nil ; add in default position (head)
+	    t ; buffer-local
+	    )
+  )
 
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 (add-hook 'c++-ts-mode-hook 'my-c++-mode-hook)
@@ -370,16 +380,38 @@
 ;; clang-format
 (require 'clang-format)
 
-; Try to find the latest and greatest clang-format if the default is
-; not there. This happens on Ubuntu if you install, say,
-; clang-format-17 and remove clang-format. /usr/bin/clang-format is
-; clang-format-14, and if you want anything newer, you have to name it
-; explicitly.
-(if (not (file-executable-p clang-format-executable))
-    (let ((clang-formats (seq-filter (lambda (fname) (string-match "\\`clang-format-[0-9]\\{1,\\}" fname))
-				     (sort (directory-files "/usr/bin") 'string>))))
-      (if (not (null clang-formats))
-	  (setq clang-format-executable (concat "/usr/bin/" (car clang-formats))))))
+;; Try to find the latest and greatest clang-format.
+(defun find-newest-clang-format-in-dir (dir)
+  (let ((clang-formats (seq-filter (lambda (fname) (or
+						    (string-equal "clang-format" fname)
+						    (string-match "\\`clang-format-[0-9]\\{1,\\}" fname)))
+					; sort in reverse order so newest clang is on top
+				   (sort (directory-files dir) 'string>))))
+    (if (null clang-formats)
+	nil
+      (car clang-formats))))
+
+(defun find-newest-clang-format ()
+  (car
+   (mapcar
+    ;; turn ("/usr/bin" "clang-format-NN") into "/usr/bin/clang-format-NN"
+    (lambda (l) (concat (car l) "/" (cadr l)))
+    (sort
+     (seq-filter
+
+      ;; filter out entries not containing a clang-format
+      (lambda (l) (not (null (cadr l))))
+
+      ;; newest clang-format in each directory in $PATH, or nil
+      (mapcar (lambda (dir) (list dir (find-newest-clang-format-in-dir dir))) exec-path))
+     ;; sort the newest (i.e. lexically greatest) clangd first, regardless of containing directory
+     (lambda (l1 l2) (string> (cadr l1) (cadr l2)))))))
+
+
+(let ((newest-clang-format (find-newest-clang-format)))
+  ;; If we don't find anything, just leave clang-format-executable alone, I guess.
+  (if (not (null newest-clang-format))
+      (setq clang-format-executable newest-clang-format)))
 
 ;; treesit
 (require 'treesit)
