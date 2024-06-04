@@ -268,7 +268,7 @@
 
 (add-hook 'typescript-mode-hook 'my-typescript-mode-hook)
 
-; no require needed, apparently
+;; no require needed, apparently
 (defun my-js-mode-hook ()
   ;; semistandard JS style rejects tabs, so let's just use spaces.
   (setq indent-tabs-mode nil)
@@ -384,8 +384,8 @@
 ;; treesit
 (require 'treesit)
 
-; There are others out there, but these are some of the official ones,
-; where "official" means "under github.com/tree-sitter".
+;; There are others out there, but these are some of the official ones,
+;; where "official" means "under github.com/tree-sitter".
 (setq treesit-language-source-alist
       '((bash . ("https://github.com/tree-sitter/tree-sitter-bash"))
 	(c . ("https://github.com/tree-sitter/tree-sitter-c"))
