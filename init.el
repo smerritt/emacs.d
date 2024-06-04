@@ -282,6 +282,12 @@
 ;; C++ mode
 ;;
 
+;; c-or-c++-mode tries its best, but when faced with an empty buffer,
+;; it chooses C. This results in confusion, but then that confusion
+;; goes away when you reopen the buffer, leaving you wondering if you
+;; imagined things.
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-ts-mode))
+
 (defun my-c++-mode-hook ()
   (column-number-mode)
 
