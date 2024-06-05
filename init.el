@@ -404,7 +404,7 @@
 
       ;; newest clang-format in each directory in $PATH, or nil
       (mapcar (lambda (dir) (list dir (find-newest-clang-format-in-dir dir))) exec-path))
-     ;; sort the newest (i.e. lexically greatest) clangd first, regardless of containing directory
+     ;; sort the newest (i.e. lexically greatest) clang-format first, regardless of containing directory
      (lambda (l1 l2) (string> (cadr l1) (cadr l2)))))))
 
 
