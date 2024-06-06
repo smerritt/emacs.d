@@ -325,6 +325,52 @@
   (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs '(python-ts-mode . ("pyright-langserver" "--stdio"))))
 
+;; Define a C++ indentation style that more or less matches KJ style.
+;;
+;; You'll need this reference in order to understand any of this:
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Parser_002dbased-Indentation.html
+;;
+;; Also helpful: run M-x treesit-explore-mode so you can see what the node names are.
+(defun kj-c++-ts-style ()
+  ;; https://github.com/capnproto/capnproto/blob/v2/style-guide.md
+  `(
+    ;; Namespaces don't get any additional indenting. Why grandparent and not parent? The parse tree
+    ;; is apparently:
+    ;;
+    ;; namespace_definition { declaration_list { ... declarations (classes, variables, etc.) ... }
+    ;;
+    ;; declaration_list is just a container for the declarations and has no actual
+    ;; associated text. All the text is in one or more elements of the declaration_list,
+    ;; even any comments. We could probably use the parent indentation here, but :shrug:
+    ((n-p-gp nil "declaration_list" "namespace_definition") grand-parent 0)
+
+    ;; Don't line up arguments with the open paren. The default has this:
+    ;;
+    ;; longFunc(foo, bar,
+    ;;          baz, quux);
+    ;;
+    ;; The desired style is
+    ;;
+    ;; longFunc(foo, bar,
+    ;;     baz, quux);
+    ((parent-is "argument_list") parent-bol 4)
+
+    ;; Same as above but for function params.
+    ((parent-is "parameter_list") parent-bol 4)
+
+    ;; Prepend all this to the GNU C++ style.
+    ,@(alist-get 'gnu (c-ts-mode--indent-styles 'cpp))))
+
+
+
+(add-hook
+ 'c++-ts-mode-hook
+ (lambda ()
+   ;; This sets up some treesitter variables that are needed for the
+   ;; custom indentation to work at all.
+   (c-ts-mode-set-style #'kj-c++-ts-style)))
+
+
 ;;
 ;; Rust mode
 ;;
