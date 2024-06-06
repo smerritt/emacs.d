@@ -318,6 +318,7 @@
 
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd-17" "--background-index" "--header-insertion=never" "--query-driver=**")))
+  (add-to-list 'eglot-server-programs '(c++-ts-mode . ("clangd-17" "--background-index" "--header-insertion=never" "--query-driver=**")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs '(python-ts-mode . ("pyright-langserver" "--stdio"))))
 
