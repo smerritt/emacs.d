@@ -288,6 +288,9 @@
 ;; imagined things.
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-ts-mode))
 
+(add-to-list 'auto-mode-alist '("\\.c\\+\\+\\'" . c++-ts-mode))
+
+
 (defun my-c++-mode-hook ()
   (column-number-mode)
 
