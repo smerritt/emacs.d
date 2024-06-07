@@ -313,8 +313,7 @@
 		(clang-format-buffer)))
 	    nil ; add in default position (head)
 	    t ; buffer-local
-	    )
-  )
+	    ))
 
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 (add-hook 'c++-ts-mode-hook 'my-c++-mode-hook)
