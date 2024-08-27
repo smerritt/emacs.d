@@ -435,7 +435,9 @@
 						    (string-equal "clang-format" fname)
 						    (string-match "\\`clang-format-[0-9]\\{1,\\}" fname)))
 					; sort in reverse order so newest clang is on top
-				   (sort (directory-files dir) 'string>))))
+				   (if (file-directory-p dir)
+				       (sort (directory-files dir) 'string>)
+				     (list)))))
     (if (null clang-formats)
 	nil
       (car clang-formats))))
