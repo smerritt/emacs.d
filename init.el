@@ -484,7 +484,7 @@
 	(c . ("https://github.com/tree-sitter/tree-sitter-c"))
 	(cpp . ("https://github.com/tree-sitter/tree-sitter-cpp"))
 	(css . ("https://github.com/tree-sitter/tree-sitter-css"))
-	(go . ("https://github.com/tree-sitter/tree-sitter-go"))
+	(go . ("https://github.com/tree-sitter/tree-sitter-go" "v0.21.2"))
 	(gomod . ("https://github.com/camdencheek/tree-sitter-go-mod"))  ;; not official
 	(haskell . ("https://github.com/tree-sitter/tree-sitter-haskell"))
 	(html . ("https://github.com/tree-sitter/tree-sitter-html"))
