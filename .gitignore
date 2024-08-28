@@ -8,3 +8,4 @@ tramp
 ido.*
 session.*
 var/
+tree-sitter/
