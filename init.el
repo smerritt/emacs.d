@@ -383,6 +383,66 @@
 ;;
 ;; Go mode
 ;;
+
+(require 'go-ts-mode)  ; puts entries for *.go *.go.mod in auto-mode-alist
+(require 'eglot)  ; do this before messing with eglot-server-programs
+(require 'bazel)  ; for workspace detection
+
+;; gopls needs some options configured. Adapted from https://github.com/bazelbuild/rules_go/wiki/Editor-setup#neovim
+(defun maybe-bazel-wrapped-gopls (unused--requested-interactively)
+  "Returns a wrapped gopls that knows how to find packages
+   and built files (say, protobuf generated .go files) where
+   Bazel puts them.
+
+   If the file is not in a Bazel workspace or the Bazel workspace
+   doesn't have a dependency named @io_bazel_rules_go, the
+   wrapper script does nothing.
+  "
+  ;; Experimentally, this function runs in the context of the buffer
+  ;; with the Go code in it. That's not documented anywhere, but it's
+  ;; what happens on Emacs 29.4, so I assume it's always true
+  ;; (*sigh*). This means we can call buffer-file-name and figure out
+  ;; if that's in a Bazel workspace or not.
+  ;;
+  ;; current-bazel-project is either an opaque struct or nil.
+  (let ((current-bazel-project (bazel-find-project (directory-file-name (buffer-file-name)))))
+    (if (not current-bazel-project)
+	;; no bazel here, so no need for the wrapper or filters
+	'("gopls")
+      ;; current-project-dir is a path to the workspace root (e.g. the
+      ;; directory with the "WORKSPACE" file in it).
+      (let* ((current-project-dir (bazel-workspace-root current-bazel-project))
+	     ;; Is current-project-dir an absolute or relative path?
+	     ;; Does it have a trailing slash? We have no idea, so we
+	     ;; have to do this ridiculous thing instead of just using
+	     ;; file-name-nondirectory.
+	     ;;
+	     ;; This gets us the name, not path, of the directory
+	     ;; containing the Bazel workspace.
+	     (current-project-name (car (seq-filter
+					 (lambda (s) (not (string-empty-p s)))
+					 (reverse (file-name-split current-project-dir)))))
+	     ;; Full path to gopls-wrapper, which is known to live in .emacs.d
+	     (gopls-wrapper (file-name-concat (file-name-directory user-init-file) "gopls-wrapper")))
+	;; These options filter out a bunch of generated files
+	;; that we don't care about, plus a bunch of symlinks
+	;; back to the main repo (in bazel-${PROJECT}) that
+	;; result in duplicate indexing.
+	(list gopls-wrapper
+	      :initializationOptions
+	      (list :directoryFilters
+		    (list "-bazel-bin" "-bazel-out" "-bazel-testlogs"
+			  (concat "-bazel-" current-project-name))))))))
+
+(defun my--eq-or-contains (haystack-or-value needle)
+  (if (listp haystack-or-value)
+      (member needle haystack-or-value)
+    (eq needle haystack-or-value)))
+
+(setcdr (assoc 'go-ts-mode eglot-server-programs 'my--eq-or-contains)
+	'maybe-bazel-wrapped-gopls)
+
+
 (defun my-go-mode-hook ()
   (eglot-ensure))
 

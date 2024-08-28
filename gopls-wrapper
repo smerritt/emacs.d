@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# This is a wrapper script around gopls for Bazel compatibility.
+#
+# If invoked in a repository with @io_bazel_rules_go configured, this
+# invokes gopls with $GOPACKAGESDRIVER set appropriately. Otherwise,
+# this wrapper is a no-op.
+
+SELF=$(realpath "${0}")
+SELFDIR=$(dirname "${SELF}")
+PKGDRIVER="${SELFDIR}/gopackagesdriver.sh"
+
+DRV="@io_bazel_rules_go//go/tools/gopackagesdriver"
+
+if bazel query "$DRV" >/dev/null 2>&1; then
+    export GOPACKAGESDRIVER="${PKGDRIVER}"
+fi
+
+gopls "${@}"
