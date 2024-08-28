@@ -388,6 +388,16 @@
 
 (add-hook 'go-ts-mode-hook 'my-go-mode-hook)
 
+;; Taken from https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#configuring-eglot
+;;
+;; Optional: install eglot-format-buffer as a save hook.
+;; The depth of -10 places this before eglot's willSave notification,
+;; so that that notification reports the actual contents that will be saved.
+(defun eglot-format-buffer-before-save ()
+  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+(add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
+(add-hook 'go-ts-mode-hook #'eglot-format-buffer-before-save)
+
 ;;
 ;; ffip configuration
 ;;
