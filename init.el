@@ -453,7 +453,11 @@
 
 
 (defun my-go-mode-hook ()
-  (eglot-ensure))
+  (eglot-ensure)
+
+  ;; I use this a lot, and "M-x co-at" is too long to type
+  (keymap-local-set "<backtab>" 'completion-at-point)  ;; it's shift-tab
+  )
 
 (add-hook 'go-ts-mode-hook 'my-go-mode-hook)
 
