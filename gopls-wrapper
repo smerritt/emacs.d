@@ -8,7 +8,12 @@
 
 SELF=$(realpath "${0}")
 SELFDIR=$(dirname "${SELF}")
+
+# If gopls can't find things, try using gopackagesdriver-snoop.py and
+# inspecting the output.
+
 PKGDRIVER="${SELFDIR}/gopackagesdriver.sh"
+#PKGDRIVER="${SELFDIR}/gopackagesdriver-snoop.py"
 
 DRV="@io_bazel_rules_go//go/tools/gopackagesdriver"
 
