@@ -50,8 +50,9 @@
 
 ;; Miscellaneous
 (server-start)
-
 (global-auto-revert-mode)
+(menu-bar-mode -1)
+(column-number-mode 1)
 
 ;; Don't litter backup files everywhere
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
