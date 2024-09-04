@@ -29,6 +29,9 @@
 (require 'solarized-theme)
 (load-theme 'solarized-dark t)
 (set-background-color "black")
+(add-to-list 'solarized-dark-color-palette-alist
+	     '(base03 . "#000000")) ; shadow the grayish value for
+				    ; base03
 
 ;; iswitchb is dead; long live ido
 (setq ido-enable-flex-matching t)
