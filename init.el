@@ -456,7 +456,15 @@
   (eglot-ensure)
 
   ;; I use this a lot, and "M-x co-at" is too long to type
-  (keymap-local-set "<backtab>" 'completion-at-point)  ;; it's shift-tab
+  (keymap-local-set "<backtab>" 'completion-at-point)  ; it's shift-tab
+
+  ;; Display tabs as two spaces
+  (setq-local tab-width 2)
+
+  ;; When editing, use two spaces for indentation. This gets
+  ;; overwritten with tabs by eglot-format-buffer, but at least it's
+  ;; not visually jarring while I'm typing.
+  (setq-local go-ts-mode-indent-offset 2)
   )
 
 (add-hook 'go-ts-mode-hook 'my-go-mode-hook)
