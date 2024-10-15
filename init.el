@@ -448,8 +448,8 @@
 	(list gopls-wrapper
 	      :initializationOptions
 	      (list :directoryFilters
-		    (list "-bazel-bin" "-bazel-out" "-bazel-testlogs"
-			  (concat "-bazel-" current-project-name))))))))
+		    (vector "-bazel-bin" "-bazel-out" "-bazel-testlogs"
+			    (concat "-bazel-" current-project-name))))))))
 
 (defun my--eq-or-contains (haystack-or-value needle)
   (if (listp haystack-or-value)
