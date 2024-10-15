@@ -9,3 +9,6 @@ ido.*
 session.*
 var/
 tree-sitter/
+__pycache__/
+eln-cache/
+eshell/
