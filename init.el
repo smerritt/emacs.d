@@ -35,6 +35,8 @@
 (add-to-list 'solarized-dark-color-palette-alist
 	     '(base03 . "#000000")) ; shadow the grayish value for
 				    ; base03
+(add-to-list 'solarized-dark-high-contrast-palette-alist
+	     '(base03 . "#000000"))
 
 ;; iswitchb is dead; long live ido
 (setq ido-enable-flex-matching t)
