@@ -202,6 +202,9 @@
 ;;
 ;; Python stuff
 ;;
+
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
+
 (defun python-insert-pdb-breakpoint ()
   (interactive)
   (indent-for-tab-command)
@@ -330,8 +333,8 @@
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd-17" "--background-index" "--header-insertion=never" "--query-driver=**")))
   (add-to-list 'eglot-server-programs '(c++-ts-mode . ("clangd-17" "--background-index" "--header-insertion=never" "--query-driver=**")))
-  (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
-  (add-to-list 'eglot-server-programs '(python-ts-mode . ("pyright-langserver" "--stdio"))))
+  (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
+  (add-to-list 'eglot-server-programs '(python-ts-mode . ("pylsp"))))
 
 ;; Define a C++ indentation style that more or less matches KJ style.
 ;;
