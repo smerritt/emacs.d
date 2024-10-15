@@ -12,7 +12,7 @@
  '(global-display-line-numbers-mode t)
  '(menu-bar-mode nil)
  '(package-selected-packages
-   '(protobuf-mode clang-format capnp-mode markdown-mode bazel exwm-mff yaml-mode typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme rust-mode))
+   '(terraform-mode protobuf-mode clang-format capnp-mode markdown-mode bazel exwm-mff yaml-mode typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme rust-mode))
  '(visible-bell t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
