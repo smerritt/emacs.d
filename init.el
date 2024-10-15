@@ -469,10 +469,17 @@
   ;; Display tabs as two spaces
   (setq-local tab-width 2)
 
+  ;; Wrap comments somewhere reasonable (the default of 70 is not reasonable).
+  (setq-local fill-column 120)
+
   ;; When editing, use two spaces for indentation. This gets
   ;; overwritten with tabs by eglot-format-buffer, but at least it's
   ;; not visually jarring while I'm typing.
   (setq-local go-ts-mode-indent-offset 2)
+
+  ;; Good grief, gopls is really slow in this huge repo at $JOB.
+  (setq-local jsonrpc-default-request-timeout 300)
+
   )
 
 (add-hook 'go-ts-mode-hook 'my-go-mode-hook)
