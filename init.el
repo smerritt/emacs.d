@@ -8,6 +8,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(global-display-line-numbers-mode t)
+ '(menu-bar-mode nil)
  '(package-selected-packages
    '(protobuf-mode clang-format capnp-mode markdown-mode bazel exwm-mff yaml-mode typescript-mode find-file-in-project eglot pytest pytest-pdb-break python-black solarized-theme rust-mode))
  '(visible-bell t))
