@@ -497,11 +497,22 @@
 	'maybe-bazel-wrapped-gopls)
 
 
+(defun go-if-err-return-err (nparams)
+  (interactive "p")
+  (let ((start (point)))
+    (insert "if err != nil {\n return ")
+    (dotimes (_ (- nparams 1)) (insert "nil, "))
+    (insert "err\n}")
+    (indent-region-line-by-line start (point))))
+
 (defun my-go-mode-hook ()
   (eglot-ensure)
 
   ;; I use this a lot, and "M-x co-at" is too long to type
   (keymap-local-set "<backtab>" 'completion-at-point)  ; it's shift-tab
+
+  ;; This comes up a lot in Go
+  (keymap-local-set "C-; r e" 'go-if-err-return-err)
 
   ;; Display tabs as two spaces
   (setq-local tab-width 2)
