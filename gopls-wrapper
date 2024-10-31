@@ -12,13 +12,45 @@ SELFDIR=$(dirname "${SELF}")
 # If gopls can't find things, try using gopackagesdriver-snoop.py and
 # inspecting the output.
 
-PKGDRIVER="${SELFDIR}/gopackagesdriver.sh"
-#PKGDRIVER="${SELFDIR}/gopackagesdriver-snoop.py"
+#PKGDRIVER="${SELFDIR}/gopackagesdriver.sh"
+PKGDRIVER="${SELFDIR}/gopackagesdriver-snoop.py"
 
-DRV="@io_bazel_rules_go//go/tools/gopackagesdriver"
+OUTPUT_BASE=""
+POSARGS=()
+while [[ $# -gt 0 ]]; do
+    case $1 in
+	--gopls-wrapper-output-base)
+	    OUTPUT_BASE=$2
+	    shift
+	    shift
+	    ;;
+	--*)
+	    echo "Unknown option $1" > /dev/stderr
+	    exit 1
+	    ;;
+	*)
+	    POSARGS+=("$1")
+	    shift
+	    ;;
+    esac
+done
 
-if bazel query "$DRV" >/dev/null 2>&1; then
-    export GOPACKAGESDRIVER="${PKGDRIVER}"
+# https://github.com/bazelbuild/rules_go/issues/3878 suggests that
+# things can be sped up by having a separate Bazel instance for
+# gopackagesdriver to query. This avoids churning the analysis cache
+# when also running builds and tests from the command line.
+#
+# However, this means that all Go generated code (e.g. protos) has to
+# be built twice: once in this output base for gopackagesdriver and
+# once in the default one for running tests.
+#
+# Overall, though, the extra disk space needed for just
+# gopackagesdriver isn't too much.
+#
+if [ -n "$OUTPUT_BASE" ]; then
+    export GOPACKAGESDRIVER_BAZEL_FLAGS="--output_base=${OUTPUT_BASE} ${GOPACKAGESDRIVER_BAZEL_FLAGS}"
 fi
+
+export GOPACKAGESDRIVER="${PKGDRIVER}"
 
 gopls "${@}"

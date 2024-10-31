@@ -4,4 +4,4 @@
 #
 # This is required to get gopls to play nicely with Bazel.
 
-exec bazel run -- @io_bazel_rules_go//go/tools/gopackagesdriver "${@}"
+exec bazel $GOPACKAGESDRIVER_BAZEL_FLAGS run -- @io_bazel_rules_go//go/tools/gopackagesdriver "${@}"

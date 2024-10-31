@@ -478,12 +478,20 @@
 					 (reverse (file-name-split current-project-dir)))))
 	     ;; Full path to gopls-wrapper, which is known to live in .emacs.d
 	     (gopls-wrapper (file-name-concat (file-name-directory user-init-file) "gopls-wrapper")))
-	;; These options filter out a bunch of generated files
-	;; that we don't care about, plus a bunch of symlinks
-	;; back to the main repo (in bazel-${PROJECT}) that
-	;; result in duplicate indexing.
 	(list gopls-wrapper
+	      ;; By using a separate output base, gopls can run Bazel
+	      ;; for its queries without blocking user-initiated
+	      ;; builds, test runs, etc.
+	      ;;
+	      ;; This argument is just something that gopls-wrapper
+	      ;; knows how to consume; it's not actually in Bazel.
+	      "--gopls-wrapper-output-base"
+	      (concat (getenv "HOME") "/tmp/bazel-gopls-" (replace-regexp-in-string "/" "_" (expand-file-name current-project-dir)))
 	      :initializationOptions
+	      ;; These options filter out a bunch of generated files
+	      ;; that we don't care about, plus a bunch of symlinks
+	      ;; back to the main repo (in bazel-${PROJECT}) that
+	      ;; result in duplicate indexing.
 	      (list :directoryFilters
 		    (vector "-bazel-bin" "-bazel-out" "-bazel-testlogs"
 			    (concat "-bazel-" current-project-name))))))))
