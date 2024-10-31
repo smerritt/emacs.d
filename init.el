@@ -362,6 +362,7 @@
 (add-hook 'c++-ts-mode-hook 'my-c++-mode-hook)
 
 (with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '(protobuf-mode . ("protobuf-language-server")))
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd-17" "--background-index" "--header-insertion=never" "--query-driver=**")))
   (add-to-list 'eglot-server-programs '(c++-ts-mode . ("clangd-17" "--background-index" "--header-insertion=never" "--query-driver=**")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
@@ -427,6 +428,11 @@
 ;; Protobuf mode
 ;;
 (require 'protobuf-mode)
+
+(defun my-protobuf-mode-hook ()
+  (eglot-ensure))
+
+(add-hook 'protobuf-mode-hook 'my-protobuf-mode-hook)
 
 ;;
 ;; Go mode
