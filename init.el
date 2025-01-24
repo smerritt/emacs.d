@@ -183,36 +183,75 @@
 (global-set-key [(control \;) ?n ?t] 'insert-nano-time)
 
 
+(defun my/url-at-point (scheme)
+  ;; Returns (start, end) buffer positions for the URL under point.
+  ;; search-backward requires the whole match to be before point
+  (let ((url-prefix (concat scheme "://")))
+    (save-excursion
+      (dotimes
+	  (_ (length url-prefix))
+	     (if (< (point) (point-max))
+		   (forward-char)))
+      (search-backward url-prefix)
+      (let ((url-start (point)))
+	(while (and (< (point) (point-max))
+		    (not (string-match-p "[[:space:]]" (buffer-substring (point) (+ 1 (point))))))
+	  (forward-char))
+	(list url-start (point))))))
+
 (defun jira-ticket-link ()
   (interactive)
   ;; Turns a Jira ticket URL at point into a Markdown-formatted link.
-
-  ;; search-backward requires the whole match to be before point
-  (dotimes (_ 8) (if (< (point) (point-max)) (forward-char)))
-
-  (search-backward "https://")
-  (let ((url-start (point)))
-    (while (and (< (point) (point-max))
-		(not (string-match-p "[[:space:]]" (buffer-substring (point) (+ 1 (point))))))
-      (forward-char))
-    (let ((url-end (point))
-	  (ticket-id-end (point)))
-      (backward-char)
-      (while (not (string= (buffer-substring (point) (+ 1 (point))) "/"))
+  ;;
+  ;; Jira ticket URLs look like
+  ;; https://jira.example.com/browse/PROJ-1234. The link text is
+  ;; PROJ-1234.
+  (let* ((pos (my/url-at-point "https"))
+	 (url-start (car pos))
+	 (url-end (cadr pos)))
+    (goto-char url-end)
+    (if (= (point) (point-max))
 	(backward-char))
-      (let* ((ticket-id-start (+ 1 (point)))
-	     (ticket-id (buffer-substring ticket-id-start ticket-id-end)))
-	;; url-start to url-end is the whole URL; ticket-id-start/end is just the ticket ID
-	;;
-	;; Edit in the markdown, working backwards so as not to perturb buffer offsets
-	(goto-char url-end)
-	(insert ")")
-	(goto-char url-start)
-	(insert "(")
-	(goto-char url-start)
-	(insert (concat "[" ticket-id "]"))))))
+    (while (not (string= (buffer-substring (point) (+ 1 (point))) "/"))
+      (backward-char))
+    (let ((ticket-id (buffer-substring (+ 1 (point)) url-end)))
+      ;; Edit in the markdown, working backwards so as not to perturb buffer offsets
+      (goto-char url-end)
+      (insert ")")
+      (goto-char url-start)
+      (insert "(")
+      (goto-char url-start)
+      (insert (concat "[" ticket-id "]")))))
 
 (global-set-key [(control \;) ?j ?t] 'jira-ticket-link)
+
+(defun gerrit-cr-link ()
+  (interactive)
+  ;; Turns a Gerrit URL at point into a Markdown-formatted link,
+  ;; complete with ":gerrit:" Slack emoji.
+  ;;
+  ;; Gerrit CR URLs look like
+  ;; https://gerrit.example.com/r/c/project/+/12345. The link text is
+  ;; ":gerrit: 12345".
+  (let* ((pos (my/url-at-point "https"))
+	 (url-start (car pos))
+	 (url-end (cadr pos)))
+    (goto-char url-end)
+    (if (= (point) (point-max))
+	(backward-char))
+    (while (not (string= (buffer-substring (point) (+ 1 (point))) "/"))
+      (backward-char))
+    (let ((cr-id (buffer-substring (+ 1 (point)) url-end)))
+      ;; Edit in the markdown, working backwards so as not to perturb buffer offsets
+      (goto-char url-end)
+      (insert ")")
+      (goto-char url-start)
+      (insert "(")
+      (goto-char url-start)
+      (insert (concat "[:gerrit: " cr-id "]")))))
+
+(global-set-key [(control \;) ?g ?l] 'gerrit-cr-link)
+
 
 ;; Take all the windows in the current frame and shift them over one.
 ;;
