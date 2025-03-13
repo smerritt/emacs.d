@@ -165,10 +165,10 @@
 
 (defun insert-random-uuid ()
     (interactive)
-    (insert (format "%08x-%04x-%04x-%04x-%012x"
+    (insert (format "%08x-%04x-4%03x-%04x-%012x"
                                     (random (expt 16 8))
                                     (random (expt 16 4))
-                                    (random (expt 16 4))
+                                    (random (expt 16 3))
                                     (random (expt 16 4))
                                     (random (expt 16 12)))))
 
