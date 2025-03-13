@@ -590,6 +590,14 @@
 (add-hook 'go-ts-mode-hook #'eglot-format-buffer-before-save)
 
 ;;
+;; Bazel configuration
+;;
+(defun my-bazel-mode-hook ()
+  (setq-local bazel-buildifier-before-save t))
+(add-hook 'bazel-mode-hook 'my-bazel-mode-hook)
+
+
+;;
 ;; ffip configuration
 ;;
 
